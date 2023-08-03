@@ -58,7 +58,14 @@ const Mentor = mongoose.model('Mentor', mentorSchema,'mentors');
 //Create a student model
 const Student = mongoose.model('Student', studentSchema,'students');
 
-//Create a mentor
+
+// set the endpoints for Mentor-student Task
+
+app.get('/', (request, response) => {
+  response.send('<h1> Mentor Student API</h1>');
+})
+
+//1.Create a mentor
 app.post('/mentor', (request, response) => {
 
   const { name } = request.body
@@ -79,7 +86,7 @@ app.post('/mentor', (request, response) => {
 
 /*
 for checking purpose in postman
-https://assign-mentor-wljm.onrender.com/mentor
+https://mentortask.onrender.com/mentor
 */
 
 app.get("/mentor", (req, res) => {
@@ -89,7 +96,7 @@ app.get("/mentor", (req, res) => {
 });
 
 
-//Create a student
+//2.Create a student
 app.post('/student', (request, response) => {
 
   const { name } = request.body;
@@ -110,7 +117,7 @@ app.post('/student', (request, response) => {
 
 /*
 for checking purpose in postman
-https://assign-mentor-wljm.onrender.com/student
+https://mentortask.onrender.com/student
 */
 
 app.get("/student", (req, res) => {
@@ -127,7 +134,11 @@ app.get("/student", (req, res) => {
 
 /*
 for checking purpose in postman
-https://assign-mentor-wljm.onrender.com/mentor/64b0131ae06556b8fc27499c/student/64b01246e06556b8fc274994
+assign mentor:https://mentortask.onrender.com/mentor/64cb685cbc165be1fa2649f4/student/64cb6a9ebc165be1fa2649fe
+assign mutiple students to a mentor:
+https://mentortask.onrender.com/mentor/64cb685cbc165be1fa2649f4/student/64cb6bc8bc165be1fa264a0a
+already mentor assigned students to assign a mentor -not allowed
+https://mentortask.onrender.com/mentor/64cb69f6bc165be1fa2649f6/student/64cb6bc8bc165be1fa264a0a
 */
 
 app.post("/mentor/:mentorId/student/:studentId", async (req, res) => {
@@ -163,8 +174,7 @@ app.post("/mentor/:mentorId/student/:studentId", async (req, res) => {
 //  current mentor -->updated to new mentor
 /*
 for checking purpose in postman
-https://assign-mentor-wljm.onrender.com/student/64b01246e06556b8fc274994/mentor/64b0130fe06556b8fc274998
-*/
+https://mentortask.onrender.com/mentor/64cb6a22bc165be1fa2649fc/student/64cb6a9ebc165be1fa2649fe*/
 
 
 
@@ -189,10 +199,10 @@ app.put("/mentor/:mentorId/student/:studentId", async (req, res) => {
     await student.save();
     res
       .status(200)
-      .json({ message: "student assigned to mentor successfully" });
+      .json({ message: "student Re-assigned to mentor successfully" });
   }
   catch (error) {
-    console.log("student assigned to mentor Failed",error);
+    console.log("student Re-assigned to mentor Failed",error);
   }
 });
 
@@ -203,8 +213,7 @@ app.put("/mentor/:mentorId/student/:studentId", async (req, res) => {
 
 /*
 for checking purpose in postman
-https://assign-mentor-wljm.onrender.com/mentor/64b0130fe06556b8fc274998/studentList
-https://assign-mentor-wljm.onrender.com/mentor/64b01315e06556b8fc27499a/studentList
+https://mentortask.onrender.com/mentor/64cb6a14bc165be1fa2649fa/studentList
 */
 
 app.get("/mentor/:mentorId/studentList", async (req, res) => {
@@ -227,8 +236,7 @@ app.get("/mentor/:mentorId/studentList", async (req, res) => {
 
 /*
 for checking purpose in postman
-https://assign-mentor-wljm.onrender.com/student/64b01230e06556b8fc27498f/previousMentor
-https://assign-mentor-wljm.onrender.com/student/64b0123ce06556b8fc274992/previousMentor
+https://mentortask.onrender.com/student/64cb6a9ebc165be1fa2649fe/previousMentor
 */
 
 app.get("/student/:studentId/previousMentor", async (req, res) => {
